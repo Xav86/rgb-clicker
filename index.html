@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Animação</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            gap: 32px;
+
+            background-color: #f9f9f9;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .rgb-title {
+            font-size: 2.5em;
+        }
+
+        .number-count {
+            font-size: 3em;
+        }
+
+        .prevent-select {
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+
+        .bloco {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 7px;
+            cursor: pointer;
+            box-shadow: #00000029 1px 3px 4px;
+            
+            transition: transform ease .3s;
+            transition-delay: .05s;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .R {
+            color: #e94e53;
+        }
+
+        .G {
+            color: #4ee975;
+        }
+
+        .B {
+            color: #4e75e9;
+        }
+
+        .bloco:hover {
+            transform: translateY(-6px);
+        }
+
+        .red {
+            background-color: #e94e53;
+            color: #cc3f3f;
+        }
+
+        .red:hover {
+            border: 3px solid #cc3f3f;
+        }
+
+        .green {
+            background-color: #4ee975;
+            color: #41cc64;
+        }
+
+        .green:hover {
+            border: 3px solid #41cc64;
+        }
+
+        .blue {
+            background-color: #4e75e9;
+            color: #3f4fcc;
+        }
+
+        .blue:hover {
+            border: 3px solid #3f4fcc;
+        }
+
+        .button-buy-clicker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 6px 12px;
+
+            background-color: #d3d3d3;
+            box-shadow: #00000029 1px 3px 4px;
+            border: 6px solid #c9c9c9;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            color: #a9a9a9;
+
+            transition: transform ease .3s;
+        }
+
+        .button-buy-clicker:hover {
+            transform: translateY(-3px);
+            border: 6px solid #a9a9a9;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container prevent-select">
+        <div class="title">
+            <h1 class="rgb-title"><span class="R">R</span><span class="G">G</span><span class="B">B</span></h1>
+            <h1>Clicker</h1>
+        </div>
+        <div class="bloco red"><h1 class="number-count">0</h1></div>
+        <button class="button-buy-clicker">Comprar Bloco clicker $40</button>
+    </div>
+    <script>
+        const bloco = document.querySelector('.bloco');
+        const cores = ['red', 'green', 'blue'];
+        let i = 0;
+
+        bloco.addEventListener('click', () => {
+            bloco.classList.remove(cores[i]);
+            i = (i + 1) % cores.length;
+            bloco.classList.add(cores[i]);
+
+            const h1 = document.querySelector('.number-count');
+
+            let valor = h1.textContent;
+
+            h1.textContent = Number(valor) + 1;
+        });
+    </script>
+</body>
+</html>
