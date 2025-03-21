@@ -29,9 +29,8 @@
             font-size: 2.5em;
         }
 
-        .number-count {
-            font-size: 3em;
-        }
+        .number-count { font-size: 3em; }
+        .money-count { font-size: 2em; }
 
         .prevent-select {
             -webkit-user-select: none; /* Safari */
@@ -58,48 +57,21 @@
             text-align: center;
         }
 
-        .R {
-            color: #e94e53;
-        }
-
-        .G {
-            color: #4ee975;
-        }
-
-        .B {
-            color: #4e75e9;
-        }
+        .R { color: #e94e53; }
+        .G { color: #4ee975; }
+        .B { color: #4e75e9; }
 
         .bloco:hover {
             transform: translateY(-6px);
         }
 
-        .red {
-            background-color: #e94e53;
-            color: #cc3f3f;
-        }
+        .red { background-color: #e94e53; color: #cc3f3f;}
+        .green { background-color: #4ee975; color: #41cc64;}
+        .blue { background-color: #4e75e9; color: #3f4fcc; }
 
-        .red:hover {
-            border: 3px solid #cc3f3f;
-        }
-
-        .green {
-            background-color: #4ee975;
-            color: #41cc64;
-        }
-
-        .green:hover {
-            border: 3px solid #41cc64;
-        }
-
-        .blue {
-            background-color: #4e75e9;
-            color: #3f4fcc;
-        }
-
-        .blue:hover {
-            border: 3px solid #3f4fcc;
-        }
+        .red:hover { border: 3px solid #cc3f3f; }
+        .green:hover { border: 3px solid #41cc64; }
+        .blue:hover { border: 3px solid #3f4fcc; }
 
         .button-buy-clicker {
             display: flex;
@@ -124,6 +96,13 @@
             transform: translateY(-3px);
             border: 6px solid #a9a9a9;
         }
+
+        .clicker-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
 
 </head>
@@ -133,24 +112,63 @@
             <h1 class="rgb-title"><span class="R">R</span><span class="G">G</span><span class="B">B</span></h1>
             <h1>Clicker</h1>
         </div>
+        <h2>Dinheiro: <span class="money-count">0</span></h2>
         <div class="bloco red"><h1 class="number-count">0</h1></div>
         <button class="button-buy-clicker">Comprar Bloco clicker $40</button>
+        <div class="clicker-container"></div>
     </div>
     <script>
         const bloco = document.querySelector('.bloco');
+        const moneyDisplay = document.querySelector('.money-count');
+        const countDisplay = document.querySelector('.number-count');
+        const buyButton = document.querySelector('.button-buy-clicker');
+        const clickerContainer = document.querySelector('.clicker-container');
         const cores = ['red', 'green', 'blue'];
+
         let i = 0;
+        let count = parseInt(localStorage.getItem('clicks')) || 0;
+        let money = parseInt(localStorage.getItem('money')) || 0;
+
+        countDisplay.textContent = count;
+        moneyDisplay.textContent = money;
 
         bloco.addEventListener('click', () => {
             bloco.classList.remove(cores[i]);
             i = (i + 1) % cores.length;
             bloco.classList.add(cores[i]);
 
-            const h1 = document.querySelector('.number-count');
+            count++;
+            countDisplay.textContent = count;
 
-            let valor = h1.textContent;
+            if (count % 7 === 0) {
+                money++;
+                moneyDisplay.textContent = money;
+            }
 
-            h1.textContent = Number(valor) + 1;
+            localStorage.setItem('clicks', count);
+            localStorage.setItem('money', money);
+        });
+
+        buyButton.addEventListener('click', () => {
+            if (money >= 40) {
+                money -= 40;
+                moneyDisplay.textContent = money;
+                localStorage.setItem('money', money);
+
+                const newClicker = document.createElement('div');
+                newClicker.classList.add('bloco', 'red');
+                newClicker.style.width = '80px';
+                newClicker.style.height = '80px';
+                newClicker.style.fontSize = '1.5em';
+                newClicker.textContent = "+1";
+                clickerContainer.appendChild(newClicker);
+
+                setInterval(() => {
+                    count++;
+                    countDisplay.textContent = count;
+                    localStorage.setItem('clicks', count);
+                }, 2000);
+            }
         });
     </script>
 </body>
